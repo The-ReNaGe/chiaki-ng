@@ -40,10 +40,10 @@
 #include <QQueue>
 #include <QElapsedTimer>
 #include <QThread>
-
-#include <atomic>
 #include <QWaitCondition>
 #include <QAtomicInteger>
+
+#include <atomic>
 #if CHIAKI_GUI_ENABLE_SPEEX
 #include <QQueue>
 #include <speex/speex_echo.h>
@@ -67,8 +67,9 @@ typedef struct haptic_packet_t
 } haptic_packet_t;
 
 class SdeckHapticsWorker;
-class DualSenseBtHaptics;
 #endif
+
+class DualSenseBtHaptics;
 
 	struct StreamSessionConnectInfo
 	{

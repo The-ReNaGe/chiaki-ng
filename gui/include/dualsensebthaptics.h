@@ -11,6 +11,11 @@
 
 #include <SDL.h>
 
+#if !SDL_VERSION_ATLEAST(2, 0, 18)
+// SDL_hid_* is only available since SDL 2.0.18; Open() fails and rumble is used instead
+typedef struct SDL_hid_device_ SDL_hid_device;
+#endif
+
 // Over Bluetooth the DualSense does not expose an audio device, so the console's
 // 3 kHz haptics stream is written directly as HID output report 0x32.
 // Lives on its own thread because HID writes may block.

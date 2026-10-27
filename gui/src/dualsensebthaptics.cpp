@@ -58,6 +58,7 @@ bool DualSenseBtHaptics::Open(const QString &hid_path)
 	Close();
 	if(hid_path.isEmpty())
 		return false;
+#if SDL_VERSION_ATLEAST(2, 0, 18)
 	if(SDL_hid_init() != 0)
 	{
 		CHIAKI_LOGE(log, "DualSense BT haptics: SDL_hid_init failed: %s", SDL_GetError());
@@ -76,15 +77,21 @@ bool DualSenseBtHaptics::Open(const QString &hid_path)
 	consecutive_failures = 0;
 	CHIAKI_LOGI(log, "DualSense BT haptics: streaming haptics to %s via output report 0x32", hid_path.toUtf8().constData());
 	return true;
+#else
+	CHIAKI_LOGW(log, "DualSense BT haptics: requires SDL 2.0.18 or newer, using rumble haptics instead");
+	return false;
+#endif
 }
 
 void DualSenseBtHaptics::Close()
 {
 	if(!dev)
 		return;
+#if SDL_VERSION_ATLEAST(2, 0, 18)
 	SDL_hid_close(dev);
-	dev = nullptr;
 	SDL_hid_exit();
+#endif
+	dev = nullptr;
 	CHIAKI_LOGI(log, "DualSense BT haptics: closed %s", path.toUtf8().constData());
 	path.clear();
 }
@@ -125,7 +132,12 @@ void DualSenseBtHaptics::SendReport()
 	report[DS_BT_HAPTICS_CRC_OFFSET + 2] = (uint8_t)((crc >> 16) & 0xFF);
 	report[DS_BT_HAPTICS_CRC_OFFSET + 3] = (uint8_t)((crc >> 24) & 0xFF);
 
-	if(SDL_hid_write(dev, report, sizeof(report)) < 0)
+#if SDL_VERSION_ATLEAST(2, 0, 18)
+	int written = SDL_hid_write(dev, report, sizeof(report));
+#else
+	int written = -1;
+#endif
+	if(written < 0)
 	{
 		if(consecutive_failures++ == 0)
 			CHIAKI_LOGW(log, "DualSense BT haptics: HID write failed: %s", SDL_GetError());
