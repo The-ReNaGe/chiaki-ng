@@ -2,6 +2,7 @@
   <qresource prefix="/">
     <file>qtquickcontrols2.conf</file>
     <file>Main.qml</file>
+    <file>AppTheme.qml</file>
     <file>MainView.qml</file>
     <file>StreamView.qml</file>
     <file>StreamMenuWindow.qml</file>

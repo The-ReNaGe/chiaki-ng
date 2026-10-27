@@ -11,8 +11,9 @@ Item {
     property bool initialAsk: false
     readonly property bool preferSeparateStreamSettingsWindows: Chiaki.window.runtimeRendererBackend === 1 && Chiaki.session
     property bool useSeparateStreamSettingsWindows: false
+    readonly property AppTheme theme: AppTheme {}
     Material.theme: Material.Dark
-    Material.accent: "#00a7ff"
+    Material.accent: theme.accent
 
     function controllerButton(name) {
         let type = "deck";
@@ -249,9 +250,13 @@ Item {
             stack.replace(stack.get(0), autoConnectViewComponent, {}, StackView.Immediate);
     }
 
-    Pane {
+    Rectangle {
         anchors.fill: parent
         visible: !Chiaki.window.hasVideo && !Chiaki.window.keepVideo
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: theme.backgroundTop }
+            GradientStop { position: 1.0; color: theme.backgroundBottom }
+        }
     }
 
     StackView {
@@ -422,9 +427,9 @@ Item {
             bottomMargin: 30
         }
         color: Material.accent
-        width: errorLayout.width + 40
-        height: errorLayout.height + 20
-        radius: 8
+        width: errorLayout.width + 48
+        height: errorLayout.height + 24
+        radius: theme.radiusMedium
         opacity: errorHideTimer.running ? 0.8 : 0.0
 
         Behavior on opacity { NumberAnimation { duration: 500 } }

@@ -56,22 +56,36 @@ Item {
             left: parent.left
             right: parent.right
         }
-        height: 80
+        height: 88
+        background: Item {
+            Rectangle {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    bottom: parent.bottom
+                    leftMargin: root.theme.margin
+                    rightMargin: root.theme.margin
+                }
+                height: 1
+                color: root.theme.divider
+            }
+        }
 
         RowLayout {
             anchors {
                 fill: parent
-                leftMargin: 10
-                rightMargin: 10
+                leftMargin: 12
+                rightMargin: 12
             }
 
             Button {
                 Layout.fillHeight: true
-                Layout.preferredWidth: 100
+                Layout.preferredWidth: 80
                 flat: true
                 text: "❮"
+                font.pixelSize: 28
                 focusPolicy: Qt.NoFocus
-                Material.roundedScale: Material.SmallScale
+                Material.roundedScale: Material.MediumScale
                 onClicked: {
                     dialog.rejected();
                     dialog.close();
@@ -87,7 +101,7 @@ Item {
                 padding: 30
                 font.pixelSize: 25
                 focusPolicy: Qt.NoFocus
-                Material.roundedScale: Material.SmallScale
+                Material.roundedScale: Material.MediumScale
                 onClicked: dialog.accepted()
                 icon.source: "qrc:/icons/options.svg";
                 icon.width: 50
@@ -101,7 +115,8 @@ Item {
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter
             font.bold: true
-            font.pixelSize: 26
+            font.pixelSize: 28
+            color: root.theme.textPrimary
         }
 
         Label {
@@ -116,6 +131,7 @@ Item {
             verticalAlignment: Qt.AlignVCenter
             font.bold: true
             font.pixelSize: 14
+            color: root.theme.textSecondary
         }
     }
 

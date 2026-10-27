@@ -172,6 +172,19 @@ DialogView {
                 left: parent.left
                 right: parent.right
                 topMargin: 5
+                leftMargin: root.theme.margin
+                rightMargin: root.theme.margin
+            }
+            background: Item {
+                Rectangle {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        bottom: parent.bottom
+                    }
+                    height: 1
+                    color: root.theme.divider
+                }
             }
             TabButton {
                 id: general
@@ -420,6 +433,21 @@ DialogView {
             }
         }
 
+        // Card behind the settings pages; pages keep their own layout and scrolling
+        Rectangle {
+            anchors {
+                top: bar.bottom
+                bottom: parent.bottom
+                horizontalCenter: parent.horizontalCenter
+                topMargin: 16
+                bottomMargin: 24
+            }
+            width: Math.min(parent.width - 2 * root.theme.margin, 1600)
+            radius: root.theme.radiusLarge
+            color: root.theme.surface
+            border.color: root.theme.border
+        }
+
         StackLayout {
             anchors {
                 top: bar.bottom
@@ -480,6 +508,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Ask)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -497,6 +526,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Do Nothing)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -520,6 +550,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Unchecked)")
+                            color: root.theme.textSecondary
                             visible: (typeof Chiaki.settings.steamDeckHaptics !== "undefined")
                         }
 
@@ -544,6 +575,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Unchecked)")
+                            color: root.theme.textSecondary
                             visible: typeof Chiaki.settings.verticalDeck !== "undefined"
                         }
 
@@ -562,6 +594,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Audio and Video Enabled)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -604,6 +637,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Unchecked)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -629,6 +663,7 @@ DialogView {
                             Label {
                                 Layout.alignment: Qt.AlignRight
                                 text: qsTr("(Checked)")
+                                color: root.theme.textSecondary
                             }
                         }
                         RowLayout {
@@ -719,6 +754,7 @@ DialogView {
                             Label {
                                 Layout.alignment: Qt.AlignRight
                                 text: qsTr("(L1+R1+L3+R3)")
+                                color: root.theme.textSecondary
                             }
                         }
                     }
@@ -791,6 +827,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Auto)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -810,6 +847,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Fullscreen)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -841,6 +879,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(1920)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.windowType == 1
                     }
 
@@ -873,6 +912,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(1080)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.windowType == 1
                     }
 
@@ -889,6 +929,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Unchecked)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -903,6 +944,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Checked)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -922,6 +964,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Unchecked)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -949,6 +992,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(High Quality)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -973,6 +1017,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Direct Mapping)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -991,6 +1036,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(None)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -1014,6 +1060,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Vulkan)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -1031,6 +1078,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Unchecked)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.rendererBackend == 0
                     }
 
@@ -1576,6 +1624,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Auto)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -1600,6 +1649,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Auto)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -1632,6 +1682,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(50 ms)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -1662,6 +1713,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(100%)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -1677,6 +1729,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Unchecked)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -1695,6 +1748,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Unchecked)")
+                            color: root.theme.textSecondary
                             visible: typeof Chiaki.settings.speechProcessing !== "undefined"
                         }
 
@@ -1726,6 +1780,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(6 dB)")
+                            color: root.theme.textSecondary
                             visible: if (typeof Chiaki.settings.speechProcessing !== "undefined") {Chiaki.settings.speechProcessing} else {false}
                         }
 
@@ -1757,6 +1812,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(30 dB)")
+                            color: root.theme.textSecondary
                             visible: if (typeof Chiaki.settings.speechProcessing !== "undefined") {Chiaki.settings.speechProcessing} else {false}
                         }
 
@@ -1786,6 +1842,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(3%)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -1814,6 +1871,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(5%)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -1829,6 +1887,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Unchecked)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -1845,6 +1904,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Unchecked)")
+                            color: root.theme.textSecondary
                         }
                     }
                 }
@@ -2583,6 +2643,7 @@ DialogView {
                             Label {
                                 Layout.alignment: Qt.AlignRight
                                 text: qsTr("(Checked)")
+                                color: root.theme.textSecondary
                             }
                         }
                         RowLayout {
@@ -2611,6 +2672,7 @@ DialogView {
                             Label {
                                 Layout.alignment: Qt.AlignRight
                                 text: qsTr("(Checked)")
+                                color: root.theme.textSecondary
                             }
                         }
 
@@ -2655,6 +2717,7 @@ DialogView {
                                 Layout.alignment: Qt.AlignRight
                                 Layout.leftMargin: 100
                                 text: qsTr("(0.3 mm)")
+                                color: root.theme.textSecondary
                             }
                         }
                         RowLayout {
@@ -2745,6 +2808,7 @@ DialogView {
                             Label {
                                 Layout.alignment: Qt.AlignRight
                                 text: qsTr("(L1+R1+dpad Up)")
+                                color: root.theme.textSecondary
                             }
                         }
                         RowLayout {
@@ -2775,6 +2839,7 @@ DialogView {
                             Label {
                                 Layout.alignment: Qt.AlignRight
                                 text: qsTr("(Unchecked)")
+                                color: root.theme.textSecondary
                             }
                         }
                         RowLayout {
@@ -2796,6 +2861,7 @@ DialogView {
                             Label {
                                 Layout.alignment: Qt.AlignRight
                                 text: qsTr("(Normal)")
+                                color: root.theme.textSecondary
                             }
                         }
                         RowLayout {
@@ -2834,6 +2900,7 @@ DialogView {
                                 Layout.alignment: Qt.AlignRight
                                 Layout.leftMargin: 250
                                 text: qsTr("(console setting)")
+                                color: root.theme.textSecondary
                             }
                         }
                     }
@@ -2919,6 +2986,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(Unchecked)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -2949,6 +3017,7 @@ DialogView {
                             Layout.alignment: Qt.AlignRight
                             Layout.leftMargin: 100
                             text: qsTr("(75)")
+                            color: root.theme.textSecondary
                         }
 
                         Label {
@@ -2979,6 +3048,7 @@ DialogView {
                         Label {
                             Layout.alignment: Qt.AlignRight
                             text: qsTr("(250)")
+                            color: root.theme.textSecondary
                             Layout.leftMargin: 100
                         }
                     }

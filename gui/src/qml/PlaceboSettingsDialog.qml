@@ -201,6 +201,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(EwaLanczos)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -219,6 +220,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Chosen Upscaler)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -237,6 +239,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Hermite)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -255,6 +258,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Chosen Downscaler)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -283,6 +287,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(0.00)")
+                        color: root.theme.textSecondary
                     }
                 }
             }
@@ -312,6 +317,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(no)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -332,6 +338,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Default)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboDeinterlaceEnabled
                     }
 
@@ -353,6 +360,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Yadif)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboDeinterlaceEnabled
                     }
 
@@ -373,6 +381,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(no)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboDeinterlaceEnabled
                     }
                 }
@@ -405,6 +414,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Checked)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -424,6 +434,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Custom)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboDebandEnabled
                     }
 
@@ -455,6 +466,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(1)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboDebandEnabled && (Chiaki.settings.placeboDebandPreset == 0)
                     }
 
@@ -486,6 +498,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(3.0)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboDebandEnabled && (Chiaki.settings.placeboDebandPreset == 0)
                     }
 
@@ -517,6 +530,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(16.0)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboDebandEnabled && (Chiaki.settings.placeboDebandPreset == 0)
                     }
 
@@ -548,6 +562,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(4.0)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboDebandEnabled && (Chiaki.settings.placeboDebandPreset == 0)
                     }
                 }
@@ -579,6 +594,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Checked)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -598,6 +614,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Custom)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboSigmoidEnabled
                     }
 
@@ -629,6 +646,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(0.75)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboSigmoidEnabled && (Chiaki.settings.placeboSigmoidPreset == 0)
                     }
 
@@ -660,6 +678,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(6.5)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboSigmoidEnabled && (Chiaki.settings.placeboSigmoidPreset == 0)
                     }
                 }
@@ -691,6 +710,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Checked)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -710,6 +730,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Custom)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboColorAdjustmentEnabled
                     }
 
@@ -741,6 +762,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(0.00)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboColorAdjustmentEnabled && (Chiaki.settings.placeboColorAdjustmentPreset == 0)
                     }
 
@@ -772,6 +794,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(1.0)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboColorAdjustmentEnabled && (Chiaki.settings.placeboColorAdjustmentPreset == 0)
                     }
 
@@ -803,6 +826,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(1.0)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboColorAdjustmentEnabled && (Chiaki.settings.placeboColorAdjustmentPreset == 0)
                     }
 
@@ -834,6 +858,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(0.00)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboColorAdjustmentEnabled && (Chiaki.settings.placeboColorAdjustmentPreset == 0)
                     }
 
@@ -865,6 +890,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(1.0)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboColorAdjustmentEnabled && (Chiaki.settings.placeboColorAdjustmentPreset == 0)
                     }
 
@@ -896,6 +922,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(0.000)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboColorAdjustmentEnabled && (Chiaki.settings.placeboColorAdjustmentPreset == 0)
                     }
                 }
@@ -927,6 +954,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Checked)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -946,6 +974,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(High Quality)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboPeakDetectionEnabled
                     }
 
@@ -977,6 +1006,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(20.0)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboPeakDetectionEnabled && (Chiaki.settings.placeboPeakDetectionPreset == 0)
                     }
 
@@ -1008,6 +1038,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(1.0)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboPeakDetectionEnabled && (Chiaki.settings.placeboPeakDetectionPreset == 0)
                     }
 
@@ -1039,6 +1070,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(3.0)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboPeakDetectionEnabled && (Chiaki.settings.placeboPeakDetectionPreset == 0)
                     }
 
@@ -1070,6 +1102,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(99.995)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboPeakDetectionEnabled && (Chiaki.settings.placeboPeakDetectionPreset == 0)
                     }
 
@@ -1101,6 +1134,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(1.0)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboPeakDetectionEnabled && (Chiaki.settings.placeboPeakDetectionPreset == 0)
                     }
 
@@ -1120,6 +1154,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Unchecked)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboPeakDetectionEnabled && (Chiaki.settings.placeboPeakDetectionPreset == 0)
                     }
                 }
@@ -1151,6 +1186,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(Checked)")
+                        color: root.theme.textSecondary
                     }
 
                     Label {
@@ -1170,6 +1206,7 @@ DialogView {
                     Label {
                         Layout.alignment: Qt.AlignRight
                         text: qsTr("(High Quality)")
+                        color: root.theme.textSecondary
                         visible: Chiaki.settings.placeboColorMappingEnabled
                     }
 

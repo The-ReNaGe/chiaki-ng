@@ -45,6 +45,7 @@ DialogView {
             Label {
                 Layout.alignment: Qt.AlignRight
                 text: qsTr("(Auto)")
+                color: root.theme.textSecondary
             }
 
             Label {
@@ -62,6 +63,7 @@ DialogView {
             Label {
                 Layout.alignment: Qt.AlignRight
                 text: qsTr("(Auto)")
+                color: root.theme.textSecondary
             }
 
             Label {
@@ -90,6 +92,7 @@ DialogView {
             Label {
                 Layout.alignment: Qt.AlignRight
                 text: qsTr("(Auto)")
+                color: root.theme.textSecondary
             }
 
             Label {
@@ -121,6 +124,7 @@ DialogView {
             Label {
                 Layout.alignment: Qt.AlignRight
                 text: qsTr("(1000 nits)")
+                color: root.theme.textSecondary
                 visible: targetPeakChoice.currentIndex == 1
             }
 
@@ -155,6 +159,7 @@ DialogView {
             Label {
                 Layout.alignment: Qt.AlignRight
                 text: qsTr("(Auto)")
+                color: root.theme.textSecondary
             }
 
             Label {
@@ -188,6 +193,7 @@ DialogView {
                 Layout.alignment: Qt.AlignRight
                 visible: targetContrastChoice.currentIndex == 2
                 text: qsTr("(1000)")
+                color: root.theme.textSecondary
             }
         }
     }
