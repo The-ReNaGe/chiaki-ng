@@ -16,7 +16,8 @@
 #include <chiaki/orientation.h>
 #endif
 
-#define PS_TOUCHPAD_MAXX 1920
+// DualSense touchpad coordinate range (also the default target range for PS5 consoles)
+#define PS_TOUCHPAD_MAXX 1919
 #define PS_TOUCHPAD_MAXY 1079
 
 class Controller;
@@ -92,6 +93,8 @@ class Controller : public QObject
 		int id;
 		ChiakiOrientationTracker orientation_tracker;
 		ChiakiControllerState state;
+		uint16_t touchpad_max_x;
+		uint16_t touchpad_max_y;
 		bool updating_mapping_button;
 		bool enable_analog_stick_mapping;
 		bool is_dualsense;
@@ -99,6 +102,7 @@ class Controller : public QObject
 		bool is_steam_virtual;
 		bool is_steam_virtual_unmasked;
 		bool is_dualsense_edge;
+		bool is_bluetooth;
 		bool has_led;
 		bool micbutton_push;
 		uint16_t firmware_version;
@@ -142,7 +146,12 @@ class Controller : public QObject
 		bool IsSteamVirtual();
 		bool IsSteamVirtualUnmasked();
 		bool IsDualSenseEdge();
+		bool IsBluetooth();
+		// Path usable with SDL_hid_open_path(), empty if SDL is not driving the device through HIDAPI
+		QString GetHidPath();
 		void resetMotionControls();
+		// Coordinate range of the console's touchpad (PS4 and PS5 differ)
+		void SetTouchpadMax(uint16_t max_x, uint16_t max_y);
 
 	signals:
 		void StateChanged();

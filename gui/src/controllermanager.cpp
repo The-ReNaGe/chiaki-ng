@@ -357,8 +357,9 @@ void ControllerManager::ControllerClosed(Controller *controller)
 
 Controller::Controller(int device_id, ControllerManager *manager)
 : QObject(manager), ref(0), last_motion_timestamp(0), micbutton_push(false), is_dualsense(false),
-  is_dualsense_edge(false), has_led(false), firmware_version(0), updating_mapping_button(false), is_handheld(false),
-  is_steam_virtual(false), is_steam_virtual_unmasked(false), enable_analog_stick_mapping(false)
+  is_dualsense_edge(false), is_bluetooth(false), has_led(false), firmware_version(0), updating_mapping_button(false), is_handheld(false),
+  is_steam_virtual(false), is_steam_virtual_unmasked(false), enable_analog_stick_mapping(false),
+  touchpad_max_x(PS_TOUCHPAD_MAXX), touchpad_max_y(PS_TOUCHPAD_MAXY)
 {
 	this->id = device_id;
 	this->manager = manager;
@@ -391,6 +392,8 @@ Controller::Controller(int device_id, ControllerManager *manager)
 			auto guid_controller_id = QPair<uint16_t, uint16_t>(0, 0);
 			uint16_t guid_version = 0;
 			SDL_GetJoystickGUIDInfo(guid, &guid_controller_id.first, &guid_controller_id.second, &guid_version, NULL);
+			// The first two GUID bytes hold the bus type (little endian)
+			is_bluetooth = (guid.data[0] | (guid.data[1] << 8)) == 0x05 /* SDL_HARDWARE_BUS_BLUETOOTH */;
 #ifdef Q_OS_MACOS
 			is_steam_virtual = (guid_version == 0 && chiaki_steam_virtual_controller_ids.contains(guid_controller_id));
 			is_steam_virtual_unmasked = (guid_version == 0 && chiaki_steam_virtual_controller_ids.contains(controller_id));
@@ -641,19 +644,32 @@ inline bool Controller::HandleTouchpadEvent(SDL_ControllerTouchpadEvent event)
 {
 	auto key = qMakePair(event.touchpad, event.finger);
 	bool exists = touch_ids.contains(key);
-	uint8_t chiaki_id;
+	// SDL reports normalized [0, 1] coordinates, but may overshoot slightly at the edges
+	float norm_x = event.x < 0.0f ? 0.0f : (event.x > 1.0f ? 1.0f : event.x);
+	float norm_y = event.y < 0.0f ? 0.0f : (event.y > 1.0f ? 1.0f : event.y);
+	uint16_t x = (uint16_t)(norm_x * touchpad_max_x + 0.5f);
+	uint16_t y = (uint16_t)(norm_y * touchpad_max_y + 0.5f);
+	int8_t chiaki_id;
 	switch(event.type)
 	{
 		case SDL_CONTROLLERTOUCHPADDOWN:
+			if(exists)
+			{
+				// DOWN without UP (e.g. dropped event): treat as a move of the existing touch
+				chiaki_controller_state_set_touch_pos(&state, touch_ids[key], x, y);
+				break;
+			}
 			if(touch_ids.size() >= CHIAKI_CONTROLLER_TOUCHES_MAX)
 				return false;
-			chiaki_id = chiaki_controller_state_start_touch(&state, event.x * PS_TOUCHPAD_MAXX, event.y * PS_TOUCHPAD_MAXY);
-			touch_ids.insert(key, chiaki_id);
+			chiaki_id = chiaki_controller_state_start_touch(&state, x, y);
+			if(chiaki_id < 0)
+				return false;
+			touch_ids.insert(key, (uint8_t)chiaki_id);
 			break;
 		case SDL_CONTROLLERTOUCHPADMOTION:
 			if(!exists)
 				return false;
-			chiaki_controller_state_set_touch_pos(&state, touch_ids[key], event.x * PS_TOUCHPAD_MAXX, event.y * PS_TOUCHPAD_MAXY);
+			chiaki_controller_state_set_touch_pos(&state, touch_ids[key], x, y);
 			break;
 		case SDL_CONTROLLERTOUCHPADUP:
 			if(!exists)
@@ -668,6 +684,12 @@ inline bool Controller::HandleTouchpadEvent(SDL_ControllerTouchpadEvent event)
 }
 #endif
 #endif
+
+void Controller::SetTouchpadMax(uint16_t max_x, uint16_t max_y)
+{
+	touchpad_max_x = max_x;
+	touchpad_max_y = max_y;
+}
 
 void Controller::Ref()
 {
@@ -882,6 +904,28 @@ void Controller::SetHapticRumble(uint16_t left, uint16_t right)
 		SetDualSenseRumble(left >> 8, right >> 8);
 	else
 		SDL_GameControllerRumble(controller, left, right, 5000);
+#endif
+}
+
+bool Controller::IsBluetooth()
+{
+#ifdef CHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER
+	if(!controller)
+		return false;
+	return is_bluetooth;
+#endif
+	return false;
+}
+
+QString Controller::GetHidPath()
+{
+#if defined(CHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER) && SDL_VERSION_ATLEAST(2, 24, 0)
+	if(!controller)
+		return QString();
+	const char *path = SDL_GameControllerPath(controller);
+	return path ? QString::fromUtf8(path) : QString();
+#else
+	return QString();
 #endif
 }
 
