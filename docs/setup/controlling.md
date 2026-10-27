@@ -184,10 +184,22 @@ Additionally, you can use gyro controls for camera options with any game by mapp
 
 ### Haptics and Adaptive Triggers
 
-PlayStation 5 haptics are mapped for both the DualSense controller (usb connection required) and the Steam Deck controller and adaptive triggers are mapped for the DualSense controller (usb or bluetooth).
+PlayStation 5 haptics are mapped for both the DualSense controller (usb or bluetooth) and the Steam Deck controller and adaptive triggers are mapped for the DualSense controller (usb or bluetooth). Over bluetooth, haptics are sent directly to the controller as HID reports since there is no audio device; see [DualSense over Bluetooth](../diy/dualsense-bluetooth.md) for details.
 
 If you are using a DualSense controller in Game mode on the Steam Deck or via Steam, you will also need to disable Steam Input for the controller when it's first plugged in following the "Turning off Steam Input" tab [here](#enabling-chiaki-ng-to-work-with-dualsense-dualshock-4){target="_blank" rel="noopener"}.
-Once checked, haptics and adaptive triggers (DualSense only) will work in games that support them when streaming from a PlayStation 5. If the DualSense is plugged in via USB (either initially or plugged in during a gaming session), haptics will be directed to it. If you are using the Steam Deck and don't have a DualSense plugged in, haptics will be directed to it and played via the trackpads.
+Once checked, haptics and adaptive triggers (DualSense only) will work in games that support them when streaming from a PlayStation 5. If the DualSense is plugged in via USB (either initially or plugged in during a gaming session) or connected via bluetooth, haptics will be directed to it. If you are using the Steam Deck and don't have a DualSense plugged in, haptics will be directed to it and played via the trackpads.
+
+### DualSense / DualShock 4 Touchpad Moves the Desktop Cursor (Linux)
+
+On Linux, the controller's touchpad is also used by the desktop as a mouse, so swiping it during a stream can move the cursor out of the stream window or click outside it. Install the provided udev rule so the desktop ignores it (chiaki-ng still reads the touchpad):
+
+```bash
+sudo install -m 644 doc/71-dualsense-touchpad-no-mouse.rules /etc/udev/rules.d/
+sudo udevadm control --reload
+sudo udevadm trigger --subsystem-match=input --action=change
+```
+
+Then turn the controller off and on again. See [DualSense over Bluetooth](../diy/dualsense-bluetooth.md#stop-the-desktop-from-using-the-touchpad-as-a-mouse-linux) for details.
 
 ### Microphone
 
