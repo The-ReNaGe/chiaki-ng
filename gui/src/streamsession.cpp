@@ -1880,6 +1880,12 @@ void StreamSession::ConnectBtHaptics(Controller *controller, int controller_id)
 		return;
 	}
 
+	bt_haptics_suppress_rumble = qEnvironmentVariableIntValue("CHIAKI_BT_HAPTICS_KEEP_RUMBLE") == 0;
+	bt_rumble_suppressed = false;
+	bt_haptics_last_nonsilent_ms = 0;
+	CHIAKI_LOGI(log.GetChiakiLog(), "DualSense BT haptics: console rumble %s while haptics play",
+		bt_haptics_suppress_rumble ? "suppressed" : "kept");
+
 	bt_haptics_thread = new QThread(this);
 	bt_haptics = new DualSenseBtHaptics(log.GetChiakiLog());
 	bt_haptics->moveToThread(bt_haptics_thread);
@@ -2277,6 +2283,7 @@ void StreamSession::PushHapticsFrame(uint8_t *buf, size_t buf_size)
 		// 16-bit stereo -> 8-bit stereo, both at the console's native 3 kHz
 		const size_t sample_count = buf_size / sizeof(int16_t);
 		QByteArray samples((qsizetype)sample_count, Qt::Uninitialized);
+		bool nonsilent = false;
 		for(size_t i = 0; i < sample_count; i++)
 		{
 			int16_t amplitude;
@@ -2284,8 +2291,12 @@ void StreamSession::PushHapticsFrame(uint8_t *buf, size_t buf_size)
 			int32_t adjusted = static_cast<int32_t>(amplitude * haptic_override) / 256;
 			adjusted = (adjusted > INT8_MAX) ? INT8_MAX : adjusted;
 			adjusted = (adjusted < INT8_MIN) ? INT8_MIN : adjusted;
+			if(adjusted != 0)
+				nonsilent = true;
 			samples[(qsizetype)i] = static_cast<char>(static_cast<int8_t>(adjusted));
 		}
+		if(nonsilent)
+			bt_haptics_last_nonsilent_ms = chiaki_time_now_monotonic_ms();
 		emit BtHapticsPushed(samples);
 		return;
 	}
@@ -2455,8 +2466,21 @@ void StreamSession::Event(ChiakiEvent *event)
 			uint8_t left_adj = left * rumble_multiplier;
 			uint8_t right_adj = right * rumble_multiplier;
 			QMetaObject::invokeMethod(this, [this, left, right, left_adj, right_adj]() {
-				for(auto controller : controllers)
+				// While a Bluetooth DualSense is playing the console's haptics stream, the
+				// rumble values are a compatibility copy of the same effect. Forwarding them
+				// adds motor buzz on top of the haptics and every change costs an extra
+				// Bluetooth report competing with the haptics reports, so drop them.
+				const bool suppress_bt_rumble = bt_haptics_suppress_rumble && bt_haptics_active
+					&& (chiaki_time_now_monotonic_ms() - bt_haptics_last_nonsilent_ms.load()) < 250;
+				for(auto it = controllers.begin(); it != controllers.end(); ++it)
 				{
+					Controller *controller = it.value();
+					if(suppress_bt_rumble && it.key() == bt_haptics_controller_id)
+					{
+						if(!bt_rumble_suppressed)
+							controller->SetRumble(0, 0);
+						continue;
+					}
 #if CHIAKI_GUI_ENABLE_STEAMDECK_NATIVE
 					if(haptics_handheld < 1 && (controller->IsHandheld() || (sdeck && controller->IsSteamVirtualUnmasked())))
 #else
@@ -2468,6 +2492,7 @@ void StreamSession::Event(ChiakiEvent *event)
 					else
 						controller->SetRumble(left_adj, right_adj);
 				}
+				bt_rumble_suppressed = suppress_bt_rumble;
 			});
 			break;
 		}
