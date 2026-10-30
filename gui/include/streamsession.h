@@ -288,6 +288,11 @@ class StreamSession : public QObject
 		int bt_haptics_controller_id = -1;
 		bool dualsense_features_enabled = false;
 		std::atomic<bool> bt_haptics_active{false};
+		// Monotonic ms of the last non-silent haptics frame sent over Bluetooth
+		std::atomic<uint64_t> bt_haptics_last_nonsilent_ms{0};
+		// Drop the console's rumble for the BT DualSense while it is playing haptics
+		bool bt_haptics_suppress_rumble = true;
+		bool bt_rumble_suppressed = false;
 		SDL_AudioCVT haptics_cvt;
 		uint8_t *haptics_resampler_buf;
 		MicBuf mic_buf;
