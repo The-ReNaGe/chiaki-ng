@@ -34,7 +34,9 @@ The console streams PS5 haptics as a 3 kHz stereo audio signal. chiaki-ng played
 | `77..137` | zero |
 | `138..141` | CRC32 (little endian) of `0xA2` followed by bytes `0..137` |
 
-The console already sends 3 kHz stereo (30 frames every 10 ms), so samples are only converted from 16 to 8 bit (scaled by the haptics intensity setting) and packed 32 frames per report. There is no resampling and no added buffering: a report goes out as soon as 32 frames have arrived (every ~10.7 ms).
+The console already sends 3 kHz stereo (30 frames every 10 ms), so samples are only converted from 16 to 8 bit (scaled by the haptics intensity setting), with no resampling.
+
+The haptics reach the client in network-paced bursts, but the controller plays them at a fixed rate. `PushSamples()` therefore only queues samples, and a sender thread drains the queue on a steady clock. It keeps a 32 ms jitter buffer before playback, drops the oldest data beyond 96 ms, and sends two 32-frame blocks per report every 21.33 ms, using DS5Dongle's layout with a 48-sample controller-side buffer. While haptics play, the console's duplicate rumble is not forwarded to the Bluetooth controller. This pacing, buffering and rumble de-duplication were contributed by @mikedinicola (fork PR #1, tested on macOS). The table below describes the original single-block layout; the paced layout replaces packet `0x11` with a 4-byte audio-control packet (flags `0x66`, buffer length, counter) and sets the double-block bit on packet `0x12`.
 
 Flow:
 

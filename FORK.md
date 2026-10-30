@@ -13,7 +13,7 @@ Based on upstream commit `c8bea264` (Merge pull request #840).
 
 | Area | Change | Files |
 |---|---|---|
-| Haptics over Bluetooth | Console haptics are written to the controller as HID output report `0x32` instead of being approximated with rumble | `gui/include/dualsensebthaptics.h`, `gui/src/dualsensebthaptics.cpp`, `gui/src/streamsession.cpp`, `gui/include/streamsession.h` |
+| Haptics over Bluetooth | Console haptics are written to the controller as HID output report `0x32` instead of being approximated with rumble. Steady report pacing, controller-side buffer (DS5Dongle layout) and rumble de-duplication by @mikedinicola | `gui/include/dualsensebthaptics.h`, `gui/src/dualsensebthaptics.cpp`, `gui/src/streamsession.cpp`, `gui/include/streamsession.h` |
 | Bluetooth detection | `Controller::IsBluetooth()` (SDL GUID bus type), `Controller::GetHidPath()` | `gui/src/controllermanager.cpp`, `gui/include/controllermanager.h` |
 | Touchpad | Per-console coordinate range (PS4 vs PS5), clamping, no phantom touch ids | `gui/src/controllermanager.cpp`, `gui/src/streamsession.cpp` |
 | Linux desktop | udev rule so the desktop stops using the controller touchpad as a mouse | `doc/71-dualsense-touchpad-no-mouse.rules` |
@@ -33,11 +33,12 @@ Full details, report layout, research notes and the verification log: [docs/diy/
 | Touchpad ignored by the desktop (udev rule) | rule applied, cursor check pending |
 | Full in-game session (haptics + triggers + gyro + touchpad) | works over Bluetooth on wired LAN (user feedback, 2026-10-27); session log confirms the 0x32 haptics path is active |
 | UI redesign: home screen and dialog headers | done, visual review pending |
+| Upstream PR | [chiaki-ng#858](https://github.com/chiaki-ng/chiaki-ng/pull/858): Bluetooth haptics only (no touchpad / UI changes) |
 | Builds on Linux (Fedora 44) | yes |
 | Builds on Windows / macOS / Flatpak | not tested; the new code only uses SDL and Qt APIs already used by chiaki-ng |
 
 ## Ideas Not Done Yet
 
-* Align `Controller::SetDualSenseRumble()` flags with Sony's app (bit `0x01` only) if a rumble command is found to interrupt Bluetooth haptics.
+* Align `Controller::SetDualSenseRumble()` flags with Sony's app (bit `0x01` only); the duplicate console rumble is already held back while Bluetooth haptics play.
 * Grab the touchpad evdev node only during a stream (`EVIOCGRAB`) instead of the global udev rule.
 * Controller speaker, headset jack and controller microphone over Bluetooth.
